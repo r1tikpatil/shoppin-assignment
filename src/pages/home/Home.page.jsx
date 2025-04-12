@@ -22,7 +22,8 @@ import {
     ChipsRowWrapper,
 } from './Home.style';
 import { fetchNewsData } from '../../services/services';
-import { getTimeAgo } from '../../utils/utils';
+import MicImg from '../../assets/mic_icon.png';
+import GoogleLenseIcon from '../../assets/google_lense_icon.png';
 import Loader from '../../components/Loader/Loader.component';
 import NewsCard from '../../components/NewsCard/NewsCard.component';
 
@@ -56,6 +57,10 @@ const HomePage = () => {
         navigate("/search");
     };
 
+    const handleMicClick = () => {
+        navigate("/mic");
+    };
+
     return (
         <Container>
             <TopBar>
@@ -73,8 +78,8 @@ const HomePage = () => {
                     <SearchInput onClick={handleSearchCLick}>
                         Search
                     </SearchInput>
-                    <FaMicrophone color="#aaa" style={{ marginLeft: 20 }} size={24} />
-                    <BsCamera color="#aaa" style={{ marginLeft: 20 }} size={24} />
+                    <img src={MicImg} alt="" style={{ height: "35px", width: "35px" }} onClick={handleMicClick} />
+                    <img src={GoogleLenseIcon} alt="" style={{ height: "30px", width: "30px", marginLeft: "10px" }} />
                 </SearchBar>
             </SearchBarWrapper>
 

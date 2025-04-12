@@ -1,9 +1,9 @@
 import React from 'react';
 import { IoIosArrowBack } from "react-icons/io";
-import { CiMicrophoneOn } from "react-icons/ci";
-import { BsCamera } from 'react-icons/bs';
 import { SearchBar, SearchInput } from './SearchInputBar.style';
 import { useNavigate } from 'react-router-dom';
+import MicImg from '../../assets/mic_icon.png';
+import GoogleLenseIcon from '../../assets/google_lense_icon.png';
 
 const SearchInputBar = ({ query, setQuery }) => {
     const navigate = useNavigate();
@@ -17,8 +17,8 @@ const SearchInputBar = ({ query, setQuery }) => {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
             />
-            <CiMicrophoneOn size={24} color="#979a9b" />
-            <BsCamera size={24} style={{ marginLeft: "10px" }} color="#979a9b" />
+            <img src={MicImg} alt="" style={{ height: "35px", width: "35px" }} />
+            <img src={GoogleLenseIcon} alt="" style={{ height: "30px", width: "30px", marginLeft: "10px" }} />
         </SearchBar>
     );
 };
