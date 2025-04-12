@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Container } from './Microphone.style';
 import MicOffComponent from '../Micoff/Micoff.component';
 import MicOnComponent from '../MicOn/MicOn.component';
+import { SpeechRecognition as NativeSpeechRecognition } from '@capacitor-community/speech-recognition';
 
 const MicroPhoneScreen = () => {
     const [isListening, setIsListening] = useState(false);
@@ -11,9 +12,18 @@ const MicroPhoneScreen = () => {
     const silenceTimeoutRef = useRef(null);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const isMobile = /android|iphone|ipad/i.test(navigator.userAgent);
 
+    useEffect(() => {
+        if (isMobile) {
+            initNativeSpeechRecognition();
+        } else {
+            initWebSpeechRecognition();
+        }
+    }, []);
+
+    const initWebSpeechRecognition = () => {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (SpeechRecognition) {
             const recognitionInstance = new SpeechRecognition();
             recognitionInstance.continuous = true;
@@ -42,12 +52,47 @@ const MicroPhoneScreen = () => {
             };
 
             setRecognition(recognitionInstance);
+        } else {
+            console.warn('Web Speech API not supported in this browser');
         }
-    }, []);
+    };
+
+    const initNativeSpeechRecognition = async () => {
+        const available = await NativeSpeechRecognition.available();
+        if (!available.available) {
+            console.warn('Native speech recognition not available');
+            return;
+        }
+
+        const permission = await NativeSpeechRecognition.requestPermission();
+        if (!permission.granted) {
+            alert('Permission not granted for speech recognition');
+            return;
+        }
+
+        NativeSpeechRecognition.start({
+            language: 'en-US',
+            maxResults: 1,
+            partialResults: true,
+            prompt: 'Speak now',
+            popup: false,
+        });
+
+        setIsListening(true);
+
+        NativeSpeechRecognition.addListener('speechRecognitionResult', (result) => {
+            const spoken = result.matches?.[0] || '';
+            setTranscript(spoken);
+        });
+
+        NativeSpeechRecognition.addListener('speechRecognitionEnd', () => {
+            setIsListening(false);
+        });
+    };
 
     useEffect(() => {
-        if (recognition) {
-            startListening();
+        if (recognition && !isMobile) {
+            recognition.start();
         }
     }, [recognition]);
 
@@ -61,20 +106,25 @@ const MicroPhoneScreen = () => {
         clearTimeout(silenceTimeoutRef.current);
         silenceTimeoutRef.current = setTimeout(() => {
             stopListening();
-        }, 10);
+        }, 3000); // Wait 3 seconds of silence
     };
 
     const startListening = () => {
-        if (recognition && !isListening) {
+        if (!isMobile && recognition && !isListening) {
             recognition.start();
+        } else if (isMobile) {
+            initNativeSpeechRecognition();
         }
     };
 
     const stopListening = () => {
-        if (recognition && isListening) {
+        if (!isMobile && recognition && isListening) {
             recognition.stop();
             clearTimeout(silenceTimeoutRef.current);
+        } else if (isMobile) {
+            NativeSpeechRecognition.stop();
         }
+        setIsListening(false);
     };
 
     return (
