@@ -34,7 +34,7 @@ export const SearchBarWrapper = styled.div`
 `;
 
 export const SearchBar = styled.div`
-  background-color: #3a3a3a;
+  background-color: #2f3133;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -117,5 +117,16 @@ export const ImageTitle = styled.div`
   font-size: 20px;
   width: 90%;
   margin-top: 10px;
+`;
+
+export const SourceContainer = styled.div`
+  font-size: 15px;
+  width: 90%;
+  margin-top: 15px;
   margin-bottom: 30px;
+`;
+
+export const TimeText = styled.span`
+  margin-left:5px;
+  color: #d0d0d0;
 `;

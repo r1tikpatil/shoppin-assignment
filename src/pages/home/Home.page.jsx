@@ -22,9 +22,12 @@ import {
     Image,
     ImageTitle,
     SearchBarWrapper,
-    ChipsRowWrapper
+    ChipsRowWrapper,
+    SourceContainer,
+    TimeText
 } from './Home.style';
 import { fetchNewsData } from '../../services/newsApi/newsAPi';
+import { getTimeAgo } from '../../utils/utils';
 
 const HomePage = () => {
     const [data, setData] = useState([]);
@@ -97,20 +100,33 @@ const HomePage = () => {
                 </WeatherCard>
             </div>
 
-            {data.map((item, index) => (
-                <ImageContainer
-                    key={index}
-                    onClick={() => window.open(item.url, "_blank")}
-                    style={{ cursor: 'pointer' }}
-                >
-                    <Image
-                        src={item.urlToImage}
-                        alt={item.author || "News Image"}
-                        onError={() => handleImageError(index)}
-                    />
-                    <ImageTitle>{item.title}</ImageTitle>
-                </ImageContainer>
-            ))}
+            {data.map((item, index) => {
+
+                if (!item.urlToImage || failedImages.has(index)) {
+                    return null;
+                }
+                return (
+
+                    <ImageContainer
+                        key={index}
+                        onClick={() => window.open(item.url, "_blank")}
+                        style={{ cursor: 'pointer' }}
+                    >
+                        <Image
+                            src={item.urlToImage}
+                            alt={item.author || "News Image"}
+                            onError={() => handleImageError(index)}
+                        />
+                        <ImageTitle>{item.title}</ImageTitle>
+                        <SourceContainer>
+                            {item.source.name}
+                            <TimeText>
+                                . {getTimeAgo(item.publishedAt)}
+                            </TimeText>
+                        </SourceContainer>
+                    </ImageContainer>
+                );
+            })}
         </Container>
     );
 };
