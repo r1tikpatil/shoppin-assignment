@@ -6,11 +6,14 @@ import SearchItem from '../../components/SearchItem/SearchItem.component';
 import Loader from '../../components/Loader/Loader.component';
 import SearchInputBar from '../../components/SearchInputBar/SearchInputBar.component';
 import SearchList from '../../components/SearchList/SearchList/component';
+import { useLocation } from 'react-router-dom';
 
 const LOCAL_STORAGE_KEY = 'recent_searches';
 
 const SearchHistory = () => {
-    const [searchText, SetSearchText] = useState('');
+    const location = useLocation();
+
+    const [searchText, setSearchText] = useState('');
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [recentSearches, setRecentSearches] = useState([]);
@@ -19,6 +22,12 @@ const SearchHistory = () => {
         const stored = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
         setRecentSearches(stored);
     }, []);
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const query = params.get('query');
+        if (query) setSearchText(query);
+    }, [location.search]);
 
     const removeRecentSearch = (term) => {
         const updated = recentSearches.filter(item => item !== term);
@@ -61,7 +70,7 @@ const SearchHistory = () => {
 
     return (
         <SearchContainer>
-            <SearchInputBar searchText={searchText} SetSearchText={SetSearchText} />
+            <SearchInputBar searchText={searchText} setSearchText={setSearchText} />
             {loading && <Loader />}
 
             {!searchText && (
@@ -73,7 +82,7 @@ const SearchHistory = () => {
                             <SearchItem
                                 key={i}
                                 text={item}
-                                onClick={() => SetSearchText(item)}
+                                onClick={() => setSearchText(item)}
                                 onRemove={() => removeRecentSearch(item)}
                             />
                         ))
@@ -91,7 +100,7 @@ const SearchHistory = () => {
                                     <SearchItem
                                         key={i}
                                         text={item}
-                                        onClick={() => SetSearchText(item)}
+                                        onClick={() => setSearchText(item)}
                                     />
                                 ))}
                         </SearchList>
