@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const SearchContainer = styled.div`
   background-color: #1f2125;
@@ -8,7 +8,6 @@ export const SearchContainer = styled.div`
   height: 100vh;
   padding-top: 10px;
 `;
-
 
 export const Icon = styled.span`
   margin-left: 10px;
@@ -25,9 +24,9 @@ export const RecentSearches = styled.div`
   p {
     width: 100%;
     display: flex;
-    justify-content:center;
-    font-size:16px;
-    font-weight:500;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 500;
   }
 
   ul {
@@ -35,15 +34,15 @@ export const RecentSearches = styled.div`
     padding: 0;
     margin: 0;
   }
-    
-    li {
+
+  li {
     display: flex;
     align-items: center;
     padding: 5px 15px;
     font-size: 14px;
     margin-bottom: 10px;
     span {
-       width: 85%;
+      width: 85%;
     }
 
     &:hover {
@@ -58,12 +57,12 @@ export const RecentSearches = styled.div`
 `;
 
 export const ManageHistory = styled.div`
- display: flex;
- align-items: center;
- cursor: pointer;
- width: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: 100%;
 
   span {
-     width: 85%;
+    width: 85%;
   }
 `;

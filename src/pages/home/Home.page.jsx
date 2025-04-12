@@ -74,7 +74,7 @@ const HomePage = () => {
 
             <SearchBarWrapper>
                 <SearchBar>
-                    <FaSearch color="#979a9b" size={24} />
+                    <FaSearch color="#979a9b" size={23} />
                     <SearchInput onClick={handleSearchCLick}>
                         Search
                     </SearchInput>

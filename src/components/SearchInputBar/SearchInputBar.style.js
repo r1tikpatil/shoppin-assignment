@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const SearchBar = styled.div`
   background-color: #2f3133;
@@ -8,17 +8,17 @@ export const SearchBar = styled.div`
   border-radius: 9999px;
   padding: 15px 20px;
   margin-bottom: 20px;
+  margin-top: 20px;
 `;
 
 export const SearchInput = styled.input`
   background: transparent;
   border: none;
   color: white;
-  flex-grow: 1;
   outline: none;
-  font-size: 16px;
+  font-size: 22px;
   padding: 0px 10px;
-  width:65%;
+  width: 65%;
   color: #979a9b;
   font-weight: 500;
 `;

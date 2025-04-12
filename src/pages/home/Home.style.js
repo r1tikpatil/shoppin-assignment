@@ -1,10 +1,10 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   background-color: #1f2125;
   color: white;
   min-height: 100vh;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
 `;
 
 export const TopBar = styled.div`
@@ -15,22 +15,22 @@ export const TopBar = styled.div`
 `;
 
 export const GoogleTextDiv = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 0px;
-    font-size: 48px;
-    font-weight: 400;
-    margin-bottom: 20px;
-    color: #f6f7f7;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0px;
+  font-size: 48px;
+  font-weight: 400;
+  margin-bottom: 20px;
+  color: #f6f7f7;
 `;
 
 export const SearchBarWrapper = styled.div`
- display: flex;
- justify-content: center;
- position: sticky;
- top: 25px;
+  display: flex;
+  justify-content: center;
+  position: sticky;
+  top: 25px;
 `;
 
 export const SearchBar = styled.div`
@@ -48,18 +48,19 @@ export const SearchInput = styled.div`
   background: transparent;
   border: none;
   color: white;
-  flex-grow: 1;
   outline: none;
-  font-size: 22px;
+  font-size: 24px;
   padding: 0px 10px;
-  width:65%;
+  width: 65%;
   color: #979a9b;
   font-weight: 500;
+  margin-left: 5px;
+  margin-bottom: 5px;
 `;
 
 export const ChipsRowWrapper = styled.div`
- display: flex;
- justify-content: center;
+  display: flex;
+  justify-content: center;
 `;
 
 export const ChipsRow = styled.div`
@@ -70,13 +71,13 @@ export const ChipsRow = styled.div`
   justify-content: space-between;
   border-bottom: 2px solid #26272b;
   padding-bottom: 20px;
-   width: 90%;
+  width: 90%;
 `;
 
 export const Chip = styled.div`
   background-color: ${({ color }) => color};
   border-radius: 9999px;
-  padding:16px;
+  padding: 16px;
   white-space: nowrap;
   width: 20%;
   display: flex;
