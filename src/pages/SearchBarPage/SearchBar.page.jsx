@@ -10,7 +10,7 @@ import SearchList from '../../components/SearchList/SearchList/component';
 const LOCAL_STORAGE_KEY = 'recent_searches';
 
 const SearchHistory = () => {
-    const [query, setQuery] = useState('');
+    const [searchText, SetSearchText] = useState('');
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [recentSearches, setRecentSearches] = useState([]);
@@ -55,16 +55,16 @@ const SearchHistory = () => {
     );
 
     useEffect(() => {
-        if (query) debouncedSearch(query);
+        if (searchText) debouncedSearch(searchText);
         return debouncedSearch.cancel;
-    }, [query, debouncedSearch]);
+    }, [searchText, debouncedSearch]);
 
     return (
         <SearchContainer>
-            <SearchInputBar query={query} setQuery={setQuery} />
+            <SearchInputBar searchText={searchText} SetSearchText={SetSearchText} />
             {loading && <Loader />}
 
-            {!query && (
+            {!searchText && (
                 <SearchList>
                     {recentSearches.length === 0 ? (
                         <p style={{ paddingLeft: 10 }}>No search history</p>
@@ -73,7 +73,7 @@ const SearchHistory = () => {
                             <SearchItem
                                 key={i}
                                 text={item}
-                                onClick={() => setQuery(item)}
+                                onClick={() => SetSearchText(item)}
                                 onRemove={() => removeRecentSearch(item)}
                             />
                         ))
@@ -81,17 +81,17 @@ const SearchHistory = () => {
                 </SearchList>
             )}
 
-            {query && !loading && (
+            {searchText && !loading && (
                 <>
                     {recentSearches.length > 0 && (
                         <SearchList>
                             {recentSearches
-                                .filter(item => item.toLowerCase().includes(query.toLowerCase()))
+                                .filter(item => item.toLowerCase().includes(searchText.toLowerCase()))
                                 .map((item, i) => (
                                     <SearchItem
                                         key={i}
                                         text={item}
-                                        onClick={() => setQuery(item)}
+                                        onClick={() => SetSearchText(item)}
                                     />
                                 ))}
                         </SearchList>

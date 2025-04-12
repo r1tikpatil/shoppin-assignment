@@ -2,11 +2,15 @@ import React from 'react';
 import { IoIosArrowBack } from "react-icons/io";
 import { SearchBar, SearchInput } from './SearchInputBar.style';
 import { useNavigate } from 'react-router-dom';
-import MicImg from '../../assets/mic_icon.png';
-import GoogleLenseIcon from '../../assets/google_lense_icon.png';
+import MicImg from '../../assets/images/mic_icon.png';
+import GoogleLenseIcon from '../../assets/images/google_lense_icon.png';
 
-const SearchInputBar = ({ query, setQuery }) => {
+const SearchInputBar = ({ searchText, setSearchText }) => {
     const navigate = useNavigate();
+
+    const handleMicClick = () => {
+        navigate("/mic");
+    };
 
     return (
         <SearchBar>
@@ -14,10 +18,10 @@ const SearchInputBar = ({ query, setQuery }) => {
             <SearchInput
                 type="text"
                 placeholder="Search or type URL"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
             />
-            <img src={MicImg} alt="" style={{ height: "35px", width: "35px" }} />
+            <img src={MicImg} alt="" style={{ height: "35px", width: "35px" }} onClick={handleMicClick} />
             <img src={GoogleLenseIcon} alt="" style={{ height: "30px", width: "30px", marginLeft: "10px" }} />
         </SearchBar>
     );

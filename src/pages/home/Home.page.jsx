@@ -22,8 +22,8 @@ import {
     ChipsRowWrapper,
 } from './Home.style';
 import { fetchNewsData } from '../../services/services';
-import MicImg from '../../assets/mic_icon.png';
-import GoogleLenseIcon from '../../assets/google_lense_icon.png';
+import MicImg from '../../assets/images/mic_icon.png';
+import GoogleLenseIcon from '../../assets/images/google_lense_icon.png';
 import Loader from '../../components/Loader/Loader.component';
 import NewsCard from '../../components/NewsCard/NewsCard.component';
 

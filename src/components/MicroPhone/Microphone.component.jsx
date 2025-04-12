@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Container, TopBar, LanguageDropdown, ColoredDots, ListeningSection, TranscriptBox, Dot, MicIcon, FaceIcon } from './Microphone.style';
+import { useNavigate } from 'react-router-dom';
+import { Container } from './Microphone.style';
 import MicOffComponent from '../Micoff/Micoff.component';
+import MicOnComponent from '../MicOn/MicOn.component';
 
 const MicroPhoneScreen = () => {
     const [isListening, setIsListening] = useState(false);
     const [transcript, setTranscript] = useState('');
     const [recognition, setRecognition] = useState(null);
     const silenceTimeoutRef = useRef(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -48,6 +51,12 @@ const MicroPhoneScreen = () => {
         }
     }, [recognition]);
 
+    useEffect(() => {
+        if (!isListening && transcript.trim()) {
+            navigate(`/search?query=${encodeURIComponent(transcript.trim())}`);
+        }
+    }, [isListening, transcript]);
+
     const resetSilenceTimer = () => {
         clearTimeout(silenceTimeoutRef.current);
         silenceTimeoutRef.current = setTimeout(() => {
@@ -70,41 +79,12 @@ const MicroPhoneScreen = () => {
 
     return (
         <Container>
-            {isListening ?
-                <>
-                    <TopBar>
-                        <MicIcon onClick={isListening ? stopListening : startListening}>
-                            {isListening ? '🛑 Stop' : '🎙️ Start'}
-                        </MicIcon>
-                    </TopBar>
-
-                    <LanguageDropdown>
-                        <option value="english">English</option>
-                    </LanguageDropdown>
-
-                    <ColoredDots>
-                        <Dot color="blue" />
-                        <Dot color="red" />
-                        <Dot color="yellow" />
-                        <Dot color="green" />
-                    </ColoredDots>
-
-                    <ListeningSection>
-                        <span>{isListening ? 'Listening...' : 'Mic is off'}</span>
-                        <FaceIcon>🎧</FaceIcon>
-                    </ListeningSection>
-
-                    {transcript && (
-                        <TranscriptBox>
-                            <strong>Recognized:</strong> {transcript}
-                        </TranscriptBox>
-                    )}
-                </>
-                :
+            {isListening ? (
+                <MicOnComponent stopListening={stopListening} transcript={transcript} />
+            ) : (
                 <MicOffComponent startListening={startListening} />
-            }
+            )}
         </Container>
-
     );
 };
 

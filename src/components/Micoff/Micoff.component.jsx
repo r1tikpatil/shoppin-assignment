@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Image, TextContainer } from "./Micoff.style";
-import MicImg from '../../assets/mic_icon.png';
+import MicImg from '../../assets/images/mic_icon.png';
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
