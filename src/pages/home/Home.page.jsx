@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaSearch, FaMicrophone, FaUserCircle } from 'react-icons/fa';
 import { WiDaySunny } from 'react-icons/wi';
-import { MdAir } from 'react-icons/md';
 import { BsCamera } from 'react-icons/bs';
 import { PiFlaskFill } from "react-icons/pi";
 import { IoLanguage } from "react-icons/io5";
 import { RiGraduationCapLine } from "react-icons/ri";
-import { MdMusicNote, MdImageSearch } from "react-icons/md";
+import { MdMusicNote, MdImageSearch, MdAir } from "react-icons/md";
 import {
     Container,
     TopBar,
@@ -26,17 +26,26 @@ import {
     SourceContainer,
     TimeText
 } from './Home.style';
-import { fetchNewsData } from '../../services/newsApi/newsAPi';
+import { fetchNewsData } from '../../services/services';
 import { getTimeAgo } from '../../utils/utils';
+import Loader from '../../components/Loader.component';
 
 const HomePage = () => {
+    const navigate = useNavigate();
     const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [failedImages, setFailedImages] = useState(new Set());
-    const [searchText, setSearchText] = useState('');
 
     const fetchData = async () => {
-        const newsData = await fetchNewsData();
-        setData(newsData?.articles || []);
+        setLoading(true);
+        try {
+            const newsData = await fetchNewsData();
+            setData(newsData?.articles || []);
+        } catch (error) {
+            console.error("Failed to fetch news:", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleImageError = (index) => {
@@ -47,6 +56,9 @@ const HomePage = () => {
         fetchData();
     }, []);
 
+    const handleSearchCLick = () => {
+        navigate("/search");
+    };
 
     return (
         <Container>
@@ -62,11 +74,9 @@ const HomePage = () => {
             <SearchBarWrapper>
                 <SearchBar>
                     <FaSearch color="#979a9b" size={24} />
-                    <SearchInput
-                        placeholder="Search"
-                        value={searchText}
-                        onChange={(e) => setSearchText(e.target.value)}
-                    />
+                    <SearchInput onClick={handleSearchCLick}>
+                        Search
+                    </SearchInput>
                     <FaMicrophone color="#aaa" style={{ marginLeft: 20 }} size={24} />
                     <BsCamera color="#aaa" style={{ marginLeft: 20 }} size={24} />
                 </SearchBar>
@@ -100,33 +110,34 @@ const HomePage = () => {
                 </WeatherCard>
             </div>
 
-            {data.map((item, index) => {
+            {loading ? (
+                <Loader />
+            ) : (
+                data.map((item, index) => {
+                    if (!item.urlToImage || failedImages.has(index)) return null;
 
-                if (!item.urlToImage || failedImages.has(index)) {
-                    return null;
-                }
-                return (
-
-                    <ImageContainer
-                        key={index}
-                        onClick={() => window.open(item.url, "_blank")}
-                        style={{ cursor: 'pointer' }}
-                    >
-                        <Image
-                            src={item.urlToImage}
-                            alt={item.author || "News Image"}
-                            onError={() => handleImageError(index)}
-                        />
-                        <ImageTitle>{item.title}</ImageTitle>
-                        <SourceContainer>
-                            {item.source.name}
-                            <TimeText>
-                                . {getTimeAgo(item.publishedAt)}
-                            </TimeText>
-                        </SourceContainer>
-                    </ImageContainer>
-                );
-            })}
+                    return (
+                        <ImageContainer
+                            key={index}
+                            onClick={() => window.open(item.url, "_blank")}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            <Image
+                                src={item.urlToImage}
+                                alt={item.author || "News Image"}
+                                onError={() => handleImageError(index)}
+                            />
+                            <ImageTitle>{item.title}</ImageTitle>
+                            <SourceContainer>
+                                {item.source.name}
+                                <TimeText>
+                                    . {getTimeAgo(item.publishedAt)}
+                                </TimeText>
+                            </SourceContainer>
+                        </ImageContainer>
+                    );
+                })
+            )}
         </Container>
     );
 };

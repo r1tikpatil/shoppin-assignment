@@ -44,7 +44,7 @@ export const SearchBar = styled.div`
   width: 80%;
 `;
 
-export const SearchInput = styled.input`
+export const SearchInput = styled.div`
   background: transparent;
   border: none;
   color: white;
