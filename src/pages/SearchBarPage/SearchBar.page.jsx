@@ -1,20 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import {
-    SearchContainer,
-    SearchBar,
-    SearchInput,
-    RecentSearches,
-    ManageHistory,
-} from './SearchBar.style';
-import { CiMicrophoneOn } from "react-icons/ci";
-import { BsCamera } from 'react-icons/bs';
-import { IoIosArrowBack, IoIosRemoveCircleOutline } from "react-icons/io";
-import { CiSearch } from "react-icons/ci";
-import { FaRegClock } from "react-icons/fa";
-import { googleSearchData } from '../../services/services';
 import debounce from 'lodash.debounce';
-import { useNavigate } from 'react-router-dom';
-import Loader from '../../components/Loader.component';
+import { googleSearchData } from '../../services/services';
+import { SearchContainer } from './SearchBar.style';
+import SearchItem from '../../components/SearchItem/SearchItem.component';
+import Loader from '../../components/Loader/Loader.component';
+import SearchInputBar from '../../components/SearchInputBar/SearchInputBar.component';
+import SearchList from '../../components/SearchList/SearchList/component';
 
 const LOCAL_STORAGE_KEY = 'recent_searches';
 
@@ -23,11 +14,10 @@ const SearchHistory = () => {
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [recentSearches, setRecentSearches] = useState([]);
-    const navigate = useNavigate();
 
     useEffect(() => {
-        const storedSearches = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
-        setRecentSearches(storedSearches);
+        const stored = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+        setRecentSearches(stored);
     }, []);
 
     const removeRecentSearch = (term) => {
@@ -50,7 +40,7 @@ const SearchHistory = () => {
 
     const debouncedSearch = useCallback(
         debounce(async (text) => {
-            if (text.trim() === '') return;
+            if (!text.trim()) return;
             setLoading(true);
             try {
                 const data = await googleSearchData(text);
@@ -65,81 +55,58 @@ const SearchHistory = () => {
     );
 
     useEffect(() => {
-        if (query) {
-            debouncedSearch(query);
-        }
+        if (query) debouncedSearch(query);
         return debouncedSearch.cancel;
     }, [query, debouncedSearch]);
 
     return (
         <SearchContainer>
-            <SearchBar>
-                <IoIosArrowBack size={24} color="#979a9b" onClick={() => navigate('/')} />
-                <SearchInput
-                    type="text"
-                    placeholder="Search or type URL"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                />
-                <CiMicrophoneOn size={24} color="#979a9b" />
-                <BsCamera size={24} style={{ marginLeft: "10px" }} color="#979a9b" />
-            </SearchBar>
-
+            <SearchInputBar query={query} setQuery={setQuery} />
             {loading && <Loader />}
 
             {!query && (
-                <RecentSearches>
+                <SearchList>
                     {recentSearches.length === 0 ? (
                         <p style={{ paddingLeft: 10 }}>No search history</p>
                     ) : (
-                        <ul>
-                            {recentSearches.map((search, index) => (
-                                <li key={index} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <ManageHistory onClick={() => setQuery(search)}>
-                                        <FaRegClock size={20} style={{ marginRight: "15px" }} />
-                                        <span>{search}</span>
-                                    </ManageHistory>
-                                    <IoIosRemoveCircleOutline size={24} color="#999" style={{ cursor: 'pointer' }} onClick={() => removeRecentSearch(search)} />
-                                </li>
-                            ))}
-                        </ul>
+                        recentSearches.map((item, i) => (
+                            <SearchItem
+                                key={i}
+                                text={item}
+                                onClick={() => setQuery(item)}
+                                onRemove={() => removeRecentSearch(item)}
+                            />
+                        ))
                     )}
-                </RecentSearches>
+                </SearchList>
             )}
 
-            {/* When searching */}
             {query && !loading && (
                 <>
                     {recentSearches.length > 0 && (
-                        <RecentSearches>
-                            <ul>
-                                {recentSearches
-                                    .filter(item => item.toLowerCase().includes(query.toLowerCase()))
-                                    .map((search, index) => (
-                                        <li key={index} onClick={() => setQuery(search)} style={{ cursor: 'pointer' }}>
-                                            <FaRegClock size={20} style={{ marginRight: "15px" }} />
-                                            <span>{search}</span>
-                                        </li>
-                                    ))}
-                            </ul>
-                        </RecentSearches>
-                    )}
-
-                    {results?.items?.length > 0 && (
-                        <RecentSearches>
-                            <ul>
-                                {results.items.map((result, index) => (
-                                    <li
-                                        key={index}
-                                        onClick={() => handleResultClick(result.title, result.link)}
-                                        style={{ cursor: 'pointer' }}
-                                    >
-                                        <CiSearch size={20} style={{ marginRight: "15px" }} />
-                                        <span>{result.title}</span>
-                                    </li>
+                        <SearchList>
+                            {recentSearches
+                                .filter(item => item.toLowerCase().includes(query.toLowerCase()))
+                                .map((item, i) => (
+                                    <SearchItem
+                                        key={i}
+                                        text={item}
+                                        onClick={() => setQuery(item)}
+                                    />
                                 ))}
-                            </ul>
-                        </RecentSearches>
+                        </SearchList>
+                    )}
+                    {results?.items?.length > 0 && (
+                        <SearchList>
+                            {results.items.map((result, i) => (
+                                <SearchItem
+                                    key={i}
+                                    text={result.title}
+                                    onClick={() => handleResultClick(result.title, result.link)}
+                                    isResult
+                                />
+                            ))}
+                        </SearchList>
                     )}
                 </>
             )}

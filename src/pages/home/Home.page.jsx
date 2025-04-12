@@ -18,17 +18,13 @@ import {
     WeatherRight,
     WeatherLeft,
     GoogleTextDiv,
-    ImageContainer,
-    Image,
-    ImageTitle,
     SearchBarWrapper,
     ChipsRowWrapper,
-    SourceContainer,
-    TimeText
 } from './Home.style';
 import { fetchNewsData } from '../../services/services';
 import { getTimeAgo } from '../../utils/utils';
-import Loader from '../../components/Loader.component';
+import Loader from '../../components/Loader/Loader.component';
+import NewsCard from '../../components/NewsCard/NewsCard.component';
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -117,24 +113,12 @@ const HomePage = () => {
                     if (!item.urlToImage || failedImages.has(index)) return null;
 
                     return (
-                        <ImageContainer
+                        <NewsCard
                             key={index}
-                            onClick={() => window.open(item.url, "_blank")}
-                            style={{ cursor: 'pointer' }}
-                        >
-                            <Image
-                                src={item.urlToImage}
-                                alt={item.author || "News Image"}
-                                onError={() => handleImageError(index)}
-                            />
-                            <ImageTitle>{item.title}</ImageTitle>
-                            <SourceContainer>
-                                {item.source.name}
-                                <TimeText>
-                                    . {getTimeAgo(item.publishedAt)}
-                                </TimeText>
-                            </SourceContainer>
-                        </ImageContainer>
+                            item={item}
+                            index={index}
+                            onImageError={handleImageError}
+                        />
                     );
                 })
             )}

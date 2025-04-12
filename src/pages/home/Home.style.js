@@ -19,10 +19,10 @@ export const GoogleTextDiv = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 7px;
+    margin-top: 0px;
     font-size: 48px;
-    font-weight: 500;
-    margin-bottom: 30px;
+    font-weight: 400;
+    margin-bottom: 20px;
     color: #f6f7f7;
 `;
 
@@ -98,35 +98,4 @@ export const WeatherCard = styled.div`
 export const WeatherLeft = styled.div``;
 export const WeatherRight = styled.div`
   text-align: right;
-`;
-
-export const ImageContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const Image = styled.img`
-  height: 10%;
-  width: 100%;
-`;
-
-export const ImageTitle = styled.div`
-  font-size: 20px;
-  width: 90%;
-  margin-top: 10px;
-`;
-
-export const SourceContainer = styled.div`
-  font-size: 15px;
-  width: 90%;
-  margin-top: 15px;
-  margin-bottom: 30px;
-`;
-
-export const TimeText = styled.span`
-  margin-left:5px;
-  color: #d0d0d0;
 `;
