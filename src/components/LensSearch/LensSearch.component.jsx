@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { response } from "../../utils/config";
+import { response } from "../../utils/constant";
 import {
   CapturedImage,
   Card,
