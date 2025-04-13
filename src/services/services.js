@@ -9,10 +9,9 @@ export const fetchNewsData = async () => {
 };
 
 export const googleSearchData = async (searchQuery) => {
-  console.log({ GOOGLE_CUSTOME_SEARCH_URL });
-  //   const data = await apiRequest(
-  //     GOOGLE_CUSTOME_SEARCH_URL + encodeURIComponent(searchQuery),
-  //     "GET"
-  //   );
-  //   return data;
+  const data = await apiRequest(
+    GOOGLE_CUSTOME_SEARCH_URL + encodeURIComponent(searchQuery),
+    "GET"
+  );
+  return data;
 };
