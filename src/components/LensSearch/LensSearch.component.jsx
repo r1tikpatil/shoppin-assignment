@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { response } from "../../utils/constant";
+import React, { useEffect, useState } from "react";
 import {
   CapturedImage,
   Card,
@@ -15,21 +14,70 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import { FaSearch } from "react-icons/fa";
+import Loader from "../Loader/Loader.component";
 
 const GoogleLensSearch = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const imageUrl = location.state?.imageUrl ?? null;
+  const [loading, setLoading] = useState(false);
+  const [pagesWithImages, setPagesWithImages] = useState([]);
 
-  const [pagesWithImages, setPagesWithImages] = useState(
-    response.responses[0].webDetection.pagesWithMatchingImages || []
-  );
+  const getBase64Data = (dataUrl) => {
+    // Remove the data URL prefix
+    const base64Data = dataUrl.replace(/^data:image\/\w+;base64,/, "");
+    return base64Data;
+  };
+
+  const takePhotoAndDetect = async (base64Image) => {
+    try {
+      setLoading(true);
+      const pureBase64 = getBase64Data(base64Image);
+      const visionResponse = await fetch(
+        `https://vision.googleapis.com/v1/images:annotate?key=${process.env.REACT_APP_GOOGLE_API_KEY}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            requests: [
+              {
+                image: {
+                  content: pureBase64,
+                },
+                features: [
+                  {
+                    type: "WEB_DETECTION",
+                  },
+                ],
+              },
+            ],
+          }),
+        }
+      );
+      const data = await visionResponse.json();
+
+      const pages =
+        data?.responses?.[0]?.webDetection?.visuallySimilarImages || [];
+      setPagesWithImages(pages);
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Something went wrong!");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleClickImage = (imageUrl) => {
     window.open(imageUrl, "_blank");
   };
 
-  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    if (imageUrl) {
+      takePhotoAndDetect(imageUrl);
+    }
+  }, [imageUrl]);
 
   return (
     <Container>
@@ -46,21 +94,15 @@ const GoogleLensSearch = () => {
         <CapturedImage src={imageUrl} alt="Captured" />
       </SearchBar>
 
-      {imageUrl && pagesWithImages.length > 0 && (
+      {loading && <Loader />}
+
+      {!loading && imageUrl && pagesWithImages.length > 0 && (
         <>
           <SectionTitle>Matching Images</SectionTitle>
           <Grid>
             {pagesWithImages.map((page, index) => (
               <Card key={index} onClick={() => handleClickImage(page.url)}>
-                <PageImage
-                  src={
-                    page?.partialMatchingImages?.[0]?.url ||
-                    page?.fullMatchingImages?.[0]?.url ||
-                    ""
-                  }
-                  alt="Page"
-                />
-                <PageTitle>{page.pageTitle || "Untitled Page"}</PageTitle>
+                <PageImage src={page?.url || ""} alt="Page" />
               </Card>
             ))}
           </Grid>

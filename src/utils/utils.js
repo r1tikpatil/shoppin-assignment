@@ -28,6 +28,7 @@ export const captureImage = async () => {
       resultType: CameraResultType.Base64,
       source: CameraSource.Camera,
       quality: 90,
+      allowEditing: true,
     });
     let base64Image = null;
 
