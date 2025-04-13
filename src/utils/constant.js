@@ -1,3 +1,5 @@
+export const NEWS_STORAGE_KEY = "google_feed_news_data";
+
 export const response = {
   responses: [
     {

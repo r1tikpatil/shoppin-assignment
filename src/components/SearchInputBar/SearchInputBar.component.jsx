@@ -4,12 +4,21 @@ import { SearchBar, SearchInput } from "./SearchInputBar.style";
 import { useNavigate } from "react-router-dom";
 import MicImg from "../../assets/images/mic_icon.png";
 import GoogleLenseIcon from "../../assets/images/google_lense_icon.png";
+import { captureImage } from "../../utils/utils";
 
 const SearchInputBar = ({ searchText, setSearchText }) => {
   const navigate = useNavigate();
 
   const handleMicClick = () => {
     navigate("/mic");
+  };
+
+  const handleLenseClick = async () => {
+    await captureImage().then((item) => {
+      if (item) {
+        navigate("/lense", { state: { imageUrl: item } });
+      }
+    });
   };
 
   return (
@@ -31,6 +40,7 @@ const SearchInputBar = ({ searchText, setSearchText }) => {
         src={GoogleLenseIcon}
         alt=""
         style={{ height: "30px", width: "30px", marginLeft: "10px" }}
+        onClick={handleLenseClick}
       />
     </SearchBar>
   );

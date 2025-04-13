@@ -26,6 +26,7 @@ import GoogleLenseIcon from "../../assets/images/google_lense_icon.png";
 import Loader from "../../components/Loader/Loader.component";
 import NewsCard from "../../components/NewsCard/NewsCard.component";
 import { captureImage } from "../../utils/utils";
+import { NEWS_STORAGE_KEY } from "../../utils/constant";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -37,9 +38,27 @@ const HomePage = () => {
     setLoading(true);
     try {
       const newsData = await fetchNewsData();
-      setData(newsData?.articles || []);
+      const articles = newsData?.articles || [];
+      setData(articles);
+      localStorage.setItem(NEWS_STORAGE_KEY, JSON.stringify(articles));
     } catch (error) {
       console.error("Failed to fetch news:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadNews = async () => {
+    try {
+      setLoading(true);
+      const cachedNews = localStorage.getItem(NEWS_STORAGE_KEY);
+      if (cachedNews) {
+        setData(JSON.parse(cachedNews));
+      } else {
+        await fetchData();
+      }
+    } catch (error) {
+      console.error("Error in fetch the news data from local storage", error);
     } finally {
       setLoading(false);
     }
@@ -50,7 +69,7 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    loadNews();
   }, []);
 
   const handleSearchCLick = () => {
@@ -62,11 +81,10 @@ const HomePage = () => {
   };
 
   const handleLenseClick = async () => {
-    await captureImage().then((item) => {
-      if (item) {
-        navigate("/lense", { state: { imageUrl: item } });
-      }
-    });
+    const item = await captureImage();
+    if (item) {
+      navigate("/lense", { state: { imageUrl: item } });
+    }
   };
 
   return (
