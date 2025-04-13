@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaSearch, FaMicrophone, FaUserCircle } from "react-icons/fa";
+import { FaSearch, FaUserCircle } from "react-icons/fa";
 import { WiDaySunny } from "react-icons/wi";
-import { BsCamera } from "react-icons/bs";
 import { PiFlaskFill } from "react-icons/pi";
 import { IoLanguage } from "react-icons/io5";
 import { RiGraduationCapLine } from "react-icons/ri";
