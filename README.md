@@ -4,9 +4,9 @@ A **pixel-perfect clone** of **Google’s Image Search and Lens interface** buil
 
 ## 🌐 Live Demo
 
-🔗 [View Deployment](#)  
-📹 [Loom Walkthrough (5 mins)](#)  
 📁 [GitHub Repository](https://github.com/r1tikpatil/shoppin-assignment)
+🔗 [APK Link](https://drive.google.com/file/d/1_0EwN__JBoSh2LhFsCovybGtdA7obUJX/view?usp=sharing)  
+🎥 [Application Video](https://drive.google.com/file/d/1DnD5jJtFGIZwEQzv6nTHRRX8cngZVdz6/view?usp=sharing)
 
 ---
 
@@ -113,6 +113,7 @@ npm install
 ```
 
 ### 4. Set up environment variables
+
 Create a .env file in the root directory and add the following keys:
 
 ```bash
@@ -138,6 +139,7 @@ npm run build
 ```
 
 ### 2. Initialize Capacitor
+
 If not already initialized, run this once to set up Capacitor with your app:
 
 ```bash
@@ -145,11 +147,13 @@ npx cap init
 ```
 
 ### 3. Add Android Platform
+
 ```bash
 npx cap add android
 ```
 
 ### 4. Sync Your Build
+
 ```bash
 npx cap sync android
 ```
