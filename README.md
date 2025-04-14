@@ -112,6 +112,15 @@ cd shoppin-assignment
 npm install
 ```
 
+### 4. Set up environment variables
+Create a .env file in the root directory and add the following keys:
+
+```bash
+REACT_APP_REACT_APP_NEWS_API_KEY=
+REACT_APP_GOOGLE_API_KEY=
+REACT_APP_SEARCH_ENGINE_ID=
+```
+
 ### **Run on Web**
 
 ### 1. Start the development server
