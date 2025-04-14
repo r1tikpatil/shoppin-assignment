@@ -15,12 +15,16 @@ const MicroPhoneScreen = () => {
 
   const isNativeMobile = Capacitor.isNativePlatform();
 
-  useEffect(() => {
+  const startRecording = async () => {
     if (isNativeMobile) {
       initNativeSpeechRecognition();
     } else {
       initWebSpeechRecognition();
     }
+  };
+
+  useEffect(() => {
+    startRecording();
   }, []);
 
   const initWebSpeechRecognition = () => {
@@ -62,35 +66,28 @@ const MicroPhoneScreen = () => {
 
   const initNativeSpeechRecognition = async () => {
     try {
+      setTranscript("");
+      setIsListening(true);
       const available = await NativeSpeechRecognition.available();
       if (!available.available) {
         console.warn("Native speech recognition not available");
         return;
       }
 
-      const permission = await NativeSpeechRecognition.requestPermission();
-      if (!permission.granted) {
-        alert("Permission not granted for speech recognition");
-        return;
-      }
+      await NativeSpeechRecognition.requestPermissions();
 
-      await NativeSpeechRecognition.start({
+      const result = await NativeSpeechRecognition.start({
         language: "en-US",
-        maxResults: 1,
-        partialResults: true,
+        maxResults: 2,
+        partialResults: false,
         prompt: "Speak now",
-        popup: false,
+        popup: true,
       });
-
-      setIsListening(true);
-
-      NativeSpeechRecognition.addListener(
-        "speechRecognitionResult",
-        (result) => {
-          const spoken = result.matches?.[0] || "";
-          setTranscript(spoken);
-        }
-      );
+      const spokenText = result.matches?.[0] || "";
+      setTranscript(spokenText);
+      setTimeout(() => {
+        setIsListening(false);
+      }, 2000);
 
       NativeSpeechRecognition.addListener("speechRecognitionEnd", () => {
         setIsListening(false);

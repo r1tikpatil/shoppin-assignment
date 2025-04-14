@@ -16,6 +16,7 @@ const SearchInputBar = ({ searchText, setSearchText }) => {
   const handleLenseClick = async () => {
     await captureImage().then((item) => {
       if (item) {
+        console.log({item})
         navigate("/lense", { state: { imageUrl: item } });
       }
     });
