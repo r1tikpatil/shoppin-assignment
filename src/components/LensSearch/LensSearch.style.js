@@ -7,7 +7,7 @@ export const Container = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  /* padding: 20px; */
   overflow-y: auto;
   position: relative;
 `;
@@ -20,14 +20,17 @@ export const SearchBar = styled.div`
   border-radius: 9999px;
   padding: 10px 20px;
   position: sticky;
-  top: 10px;
+  top: 15px;
+  width: 85%;
+  margin: 0 auto;
 `;
 
 export const HeaderContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin: 20px 0px;
+  position: relative;
 `;
 
 export const GoogleTextLabel = styled.div`
@@ -73,4 +76,9 @@ export const PageImage = styled.img`
 export const PageTitle = styled.h4`
   font-size: 16px;
   margin-top: 10px;
+`;
+
+export const ContentWrapper = styled.div`
+  width: 85%;
+  margin: 0 auto;
 `;

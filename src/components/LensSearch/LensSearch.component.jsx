@@ -10,6 +10,7 @@ import {
   SearchBar,
   GoogleTextLabel,
   HeaderContainer,
+  ContentWrapper
 } from "./LensSearch.style";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
@@ -86,9 +87,11 @@ const GoogleLensSearch = () => {
           size={24}
           color="#979a9b"
           onClick={() => navigate("/")}
+          style={{ position: "absolute", left: "15px" }}
         />
         <GoogleTextLabel>Google</GoogleTextLabel>
       </HeaderContainer>
+
       <SearchBar>
         <FaSearch size={24} color="#979a9b" />
         <CapturedImage src={imageUrl} alt="Captured" />
@@ -97,7 +100,7 @@ const GoogleLensSearch = () => {
       {loading && <Loader />}
 
       {!loading && imageUrl && pagesWithImages.length > 0 && (
-        <>
+        <ContentWrapper>
           <SectionTitle>Matching Images</SectionTitle>
           <Grid>
             {pagesWithImages.map((page, index) => (
@@ -106,7 +109,7 @@ const GoogleLensSearch = () => {
               </Card>
             ))}
           </Grid>
-        </>
+        </ContentWrapper>
       )}
     </Container>
   );

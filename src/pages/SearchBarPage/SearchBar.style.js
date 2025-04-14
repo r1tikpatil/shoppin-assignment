@@ -3,10 +3,11 @@ import styled from "styled-components";
 export const SearchContainer = styled.div`
   background-color: #1f2125;
   color: #fff;
-  font-family: Arial, sans-serif;
-  padding: 10px;
-  height: 100vh;
-  padding-top: 10px;
+  font-family: "Segoe UI", sans-serif;
+  /* padding: 10px; */
+  min-height: 100vh;
+  /* padding-top: 10px; */
+  overflow-y: hidden;
 `;
 
 export const Icon = styled.span`
@@ -15,6 +16,9 @@ export const Icon = styled.span`
 `;
 
 export const RecentSearches = styled.div`
+  width: 85%;
+  margin: 0 auto;
+  
   h3 {
     font-size: 16px;
     color: #ccc;

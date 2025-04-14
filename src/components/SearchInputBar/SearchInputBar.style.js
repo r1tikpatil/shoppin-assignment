@@ -7,8 +7,8 @@ export const SearchBar = styled.div`
   align-items: center;
   border-radius: 9999px;
   padding: 15px 20px;
-  margin-bottom: 20px;
-  margin-top: 20px;
+  width: 85%;
+  margin: 20px auto;
 `;
 
 export const SearchInput = styled.input`
