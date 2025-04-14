@@ -1,70 +1,152 @@
-# Getting Started with Create React App
+# 📷 Google Image Search Clone – React.js + Capacitor
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A **pixel-perfect clone** of **Google’s Image Search and Lens interface** built using **React.js** and **CapacitorJS**, replicating core features and sleek aesthetics of the official web app, optimized for mobile and web platforms.
 
-## Available Scripts
+## 🌐 Live Demo
 
-In the project directory, you can run:
+🔗 [View Deployment](#)  
+📹 [Loom Walkthrough (5 mins)](#)  
+📁 [GitHub Repository](https://github.com/r1tikpatil/shoppin-assignment)
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 📄 Project Overview
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+This project faithfully recreates two primary interfaces:
 
-### `npm test`
+1. **Google App Homepage**
+2. **Google Lens Search & Results Page**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+All visuals, animations, and interactions closely match the original, offering a modern, responsive, and interactive user experience.
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🚀 Features
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 🔍 Google Homepage Clone
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- ✅ Clean, responsive Google-style homepage
+- ✅ Search bar with:
+  - Microphone support (voice-to-text)
+  - Camera icon for image search
+- ✅ Real-time search feed (mock API)
 
-### `npm run eject`
+### 🧠 Text Search
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- 📤 Text search input with instant results
+- 🧪 Google custom search API integration to simulate search results
+- 🎤 Voice search support using microphone
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 📸 Image Search / Google Lens Clone
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- 📷 Clickable camera icon in the search bar launches:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+  - Option to upload an image from gallery
+  - Use phone camera via Capacitor plugin
 
-## Learn More
+- 🧠 Lens-style visual results with:
+  - Similar product cards
+  - All using google vision API
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🛠️ Tech Stack
 
-### Code Splitting
+| Tech                 | Description                                    |
+| -------------------- | ---------------------------------------------- |
+| ⚛️ React.js          | Frontend framework                             |
+| ⚡ CapacitorJS       | Native runtime for accessing camera/microphone |
+| 📦 Styled Components | (Optional) For component-based styling         |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## 📁 Folder Structure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+src/
+├── assets/
+│   ├── images/
+│   └── lottieFile/
+│
+├── components/
+│   ├── LensSearch/
+│   ├── Loader/
+│   ├── Micoff/
+│   ├── MicOn/
+│   ├── MicroPhone/
+│   ├── NewsCard/
+│   ├── SearchInputBar/
+│   ├── SearchItem/
+│   └── SearchList/
+│
+├── pages/
+│   ├── home/
+│   └── SearchBarPage/
+│
+├── services/
+│   ├── apiCall.js
+│   └── services.js
+│
+└── utils/
+    ├── constant.js
+    └── utils.js
+```
 
-### Making a Progressive Web App
+## ⚙️ Setup Instructions
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### 1. Clone the repository
 
-### Advanced Configuration
+```bash
+git clone https://github.com/r1tikpatil/shoppin-assignment.git
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### 2. Navigate into the project directory
 
-### Deployment
+```bash
+cd shoppin-assignment
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### 3. Install dependencies
 
-### `npm run build` fails to minify
+```bash
+npm install
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### **Run on Web**
+
+### 1. Start the development server
+
+```bash
+npm start
+```
+
+### **Run on Android**
+
+### 1. Build the project
+
+```bash
+npm run build
+```
+
+### 2. Initialize Capacitor
+If not already initialized, run this once to set up Capacitor with your app:
+
+```bash
+npx cap init
+```
+
+### 3. Add Android Platform
+```bash
+npx cap add android
+```
+
+### 4. Sync Your Build
+```bash
+npx cap sync android
+```
+
+### 5. Run on Android device/emulator
+
+```bash
+npx cap run android
+```
